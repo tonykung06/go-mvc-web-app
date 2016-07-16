@@ -1,7 +1,9 @@
 <h1>List of fruits</h1>
 <ul>
-	{{range .}}
-		<li>{{.}}</li>
+	{{range $i, $e := .}}
+		<li>
+			<a href="/home/{{$i}}">{{$e}}</a>
+		</li>
 	{{else}}
 		<li>No fruits</li>
 	{{end}}
