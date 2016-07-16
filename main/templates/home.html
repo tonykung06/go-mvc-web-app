@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+	{{template "_head.html" .Title}}
+	<body>
+		<h1>Hello {{.Message}}</h1>
+		{{if eq .Path "/Home"}}
+			<p>Hello World<p>
+		{{else}}
+			<p>WHAT???<p>
+		{{end}}
+		{{template "_fruits.html" .Fruits}}
+	</body>
+</html>
