@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	{{template "_head.html" .Title}}
+	<body>
+		<h1>Stand Locator</h1>
+		<input type="text" id="searchText" />
+		<button type="button" id="search">Search</button>
+		<ul id="searchResult"></ul>
+		<script type="text/javascript">
+			document.getElementById('search').addEventListener('click', function(e) {
+				var searchEl = document.getElementById('searchResult')
+				while (searchEl.firstChild) {
+				    searchEl.removeChild(searchEl.firstChild);
+				}
+				var xml = new XMLHttpRequest();
+				xml.addEventListener('readystatechange', function() {
+					var result;
+					if (xml.readyState === 4) {
+						result = JSON.parse(xml.responseText);
+						result = result.forEach(function(item) {
+							var liEl = document.createElement("li");
+							liEl.innerHTML = item;
+							searchEl.appendChild(liEl)
+						});
+					}
+				})
+				var searchText = document.getElementById('searchText').value
+				xml.open('get', '/api/stand_locator?search=' + searchText, true);
+				xml.send()
+			}, false);
+		</script>
+	</body>
+</html>

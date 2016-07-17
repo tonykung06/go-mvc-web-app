@@ -38,6 +38,11 @@ func Register(templates *template.Template) {
 	pc.template = templates.Lookup("profile.html")
 	router.HandleFunc("/profile", pc.handle)
 
+	sc := new(standLocatorController)
+	sc.template = templates.Lookup("stand_locator.html")
+	router.HandleFunc("/stand_locator", sc.get)
+	router.HandleFunc("/api/stand_locator", sc.apiSearch)
+
 	http.Handle("/", router)
 
 	//more specific patterns take precedence
