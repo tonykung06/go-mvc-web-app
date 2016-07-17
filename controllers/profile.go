@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"github.com/go-mvc-web-app/controllers/util"
+	"github.com/go-mvc-web-app/converters"
+	"github.com/go-mvc-web-app/models"
 	"github.com/go-mvc-web-app/viewmodels"
 	"net/http"
 	"text/template"
@@ -26,6 +28,18 @@ func (this *profileController) handle(w http.ResponseWriter, req *http.Request) 
 		vm.User.Stand.Zip = req.FormValue("zip")
 	}
 
+	responseWriter.Header().Add("Content-Type", "text/html")
+	this.template.Execute(responseWriter, vm)
+}
+
+func (this *profileController) showUsers(w http.ResponseWriter, req *http.Request) {
+	responseWriter := util.GetResponseWriter(w, req)
+	defer responseWriter.Close()
+	allUsers := models.GetUsers()
+	var vm []viewmodels.User
+	for _, user := range allUsers {
+		vm = append(vm, converters.ConvertUserToViewModel(user))
+	}
 	responseWriter.Header().Add("Content-Type", "text/html")
 	this.template.Execute(responseWriter, vm)
 }

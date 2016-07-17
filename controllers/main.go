@@ -38,6 +38,10 @@ func Register(templates *template.Template) {
 	pc.template = templates.Lookup("profile.html")
 	router.HandleFunc("/profile", pc.handle)
 
+	pc2 := new(profileController)
+	pc2.template = templates.Lookup("users.html")
+	router.HandleFunc("/users", pc2.showUsers)
+
 	sc := new(standLocatorController)
 	sc.template = templates.Lookup("stand_locator.html")
 	router.HandleFunc("/stand_locator", sc.get)

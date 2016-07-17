@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<h1>All Users</h1>
+		<table>
+			{{range .}}
+				<tbody>
+					<tr>
+						<td>Email:</td>
+						<td>{{.Email}}</td>
+					</tr>
+					<tr>
+						<td>First Name:</td>
+						<td>{{.FirstName}}</td>
+					</tr>
+					<tr>
+						<td>Last Name:</td>
+						<td>{{.LastName}}</td>
+					</tr>
+				</tbody>
+			{{end}}
+		</table>
+	</body>
+</html>
