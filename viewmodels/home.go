@@ -7,7 +7,19 @@ type Home struct {
 	Fruits  []string
 }
 
+type Login struct {
+	Title string
+	Path  string
+}
+
 var fruits = []string{"Apple", "Orange", "Banana"}
+
+func GetLogin() Login {
+	return Login{
+		Title: "Login Now",
+		Path:  "/login",
+	}
+}
 
 func GetHome() Home {
 	return Home{

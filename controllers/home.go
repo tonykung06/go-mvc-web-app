@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/go-mvc-web-app/controllers/util"
+	"github.com/go-mvc-web-app/models"
 	"github.com/go-mvc-web-app/viewmodels"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -10,7 +11,8 @@ import (
 )
 
 type homeController struct {
-	template *template.Template
+	template      *template.Template
+	loginTemplate *template.Template
 }
 
 func (this *homeController) get(w http.ResponseWriter, req *http.Request) {
@@ -32,4 +34,30 @@ func (this *homeController) get(w http.ResponseWriter, req *http.Request) {
 	defer responseWriter.Close()
 	responseWriter.Header().Add("Content-Type", "text/html")
 	this.template.Execute(responseWriter, vm)
+}
+
+func (this *homeController) login(w http.ResponseWriter, req *http.Request) {
+	wr := util.GetResponseWriter(w, req)
+	defer wr.Close()
+
+	if req.Method == "POST" {
+		email := req.FormValue("email")
+		password := req.FormValue("password")
+		member, err := models.GetMember(email, password)
+
+		if err == nil {
+			session, err := models.CreateSession(member)
+			if err == nil {
+				var cookie http.Cookie
+				cookie.Name = "sessionId"
+				cookie.Value = session.SessionId()
+
+				wr.Header().Add("Set-Cookie", cookie.String())
+			}
+		}
+	}
+
+	wr.Header().Add("Content-Type", "text/html")
+	vm := viewmodels.GetLogin()
+	this.loginTemplate.Execute(wr, vm)
 }

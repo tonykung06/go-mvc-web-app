@@ -31,8 +31,10 @@ func Register(templates *template.Template) {
 
 	hc := new(homeController) //return *homeController
 	hc.template = templates.Lookup("home.html")
+	hc.loginTemplate = templates.Lookup("login.html")
 	router.HandleFunc("/home", hc.get)
 	router.HandleFunc("/home/{id}", hc.get)
+	router.HandleFunc("/login", hc.login)
 
 	pc := new(profileController)
 	pc.template = templates.Lookup("profile.html")
