@@ -33,6 +33,11 @@ func Register(templates *template.Template) {
 	hc.template = templates.Lookup("home.html")
 	router.HandleFunc("/home", hc.get)
 	router.HandleFunc("/home/{id}", hc.get)
+
+	pc := new(profileController)
+	pc.template = templates.Lookup("profile.html")
+	router.HandleFunc("/profile", pc.handle)
+
 	http.Handle("/", router)
 
 	//more specific patterns take precedence
